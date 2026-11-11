@@ -1,6 +1,5 @@
 # Auto-detect text files and normalize line endings to LF
 * text=auto
-
 # Code files
 *.ts text eol=lf
 *.tsx text eol=lf
@@ -11,10 +10,8 @@
 *.html text eol=lf
 *.md text eol=lf
 *.svg text eol=lf
-
 # Binary files
-*.apk binary
+*.apk filter=lfs diff=lfs merge=lfs -text
 *.png binary
 *.jpg binary
 *.ico binary
-
