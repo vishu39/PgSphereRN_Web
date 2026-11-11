@@ -82,3 +82,4 @@ Ab jab koi bhi user aapki website par **"Download Official APK"** par click kare
 Jab bhi aap `PgSphere-NR` mein naya APK build karein:
 1. `npm run sync-apk` run karein (ye version, SHA-256 hash aur size calculate karega).
 2. GitHub par naya release tag (jaise `v1.0.1`) create karke naya APK upload kar dein!
+
