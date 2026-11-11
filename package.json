@@ -7,7 +7,6 @@
     "dev": "vite",
     "rundev": "vite",
     "sync-apk": "node scripts/sync-apk.mjs",
-    "prebuild": "node scripts/sync-apk.mjs",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

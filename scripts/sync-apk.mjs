@@ -88,8 +88,8 @@ if (!sourceApkPath && fs.existsSync(targetApkPath)) {
 }
 
 if (!sourceApkPath) {
-  console.error('No APK found to sync.');
-  process.exit(1);
+  console.log('No local APK found to sync (CI/Vercel cloud environment). Using pre-configured downloadData.ts metadata.');
+  process.exit(0);
 }
 
 // Ensure target folder exists
