@@ -117,7 +117,7 @@ if (!releaseDateStr) {
 
 const appVersion = '1.0.0';
 const releaseTag = `v${appVersion}`;
-const githubDownloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/${releaseTag}/PgSphere-NR.apk`;
+const githubDownloadUrl = `https://github.com/${GITHUB_REPO}/releases/latest/download/PgSphere-NR.apk`;
 const githubReleaseUrl = `https://github.com/${GITHUB_REPO}/releases/tag/${releaseTag}`;
 
 console.log(`\nPgSphere-NR APK Info:`);

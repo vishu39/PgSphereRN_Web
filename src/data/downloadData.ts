@@ -22,7 +22,7 @@ export const CURRENT_RELEASE: ReleaseInfo = {
   tag: "v1.0.0",
   date: "November 11, 2026",
   fileName: "PgSphere-NR.apk",
-  downloadUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/download/v1.0.0/PgSphere-NR.apk",
+  downloadUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/latest/download/PgSphere-NR.apk",
   mirrorDownloadUrl: "/downloads/PgSphere-NR.apk",
   githubReleaseUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/tag/v1.0.0",
   fileSize: "191.5 MB",
