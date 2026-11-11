@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, Download, CheckCircle2, Copy, Check, ShieldCheck, Smartphone } from 'lucide-react';
+import { X, Download, CheckCircle2, Copy, Check, ShieldCheck, Smartphone, ExternalLink } from 'lucide-react';
 import { CURRENT_RELEASE } from '../data/downloadData';
 
 interface DownloadModalProps {
@@ -12,10 +12,17 @@ export const DownloadModal = ({ isOpen, onClose }: DownloadModalProps) => {
   const [downloadStarted, setDownloadStarted] = useState(false);
   const hasTriggeredRef = useRef(false);
 
+  const getDownloadHref = () => {
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      return CURRENT_RELEASE.mirrorDownloadUrl;
+    }
+    return CURRENT_RELEASE.downloadUrl;
+  };
+
   const triggerSingleDownload = () => {
     setDownloadStarted(true);
     const link = document.createElement('a');
-    link.href = CURRENT_RELEASE.downloadUrl;
+    link.href = getDownloadHref();
     link.download = CURRENT_RELEASE.fileName;
     document.body.appendChild(link);
     link.click();
@@ -104,6 +111,19 @@ export const DownloadModal = ({ isOpen, onClose }: DownloadModalProps) => {
             >
               Click here if download didn't start
             </button>
+          </div>
+
+          <div className="mt-2.5 pt-2 border-t border-[#1a2130] flex items-center justify-between text-[11px] text-zinc-400">
+            <span>Mirror / Releases page:</span>
+            <a
+              href={CURRENT_RELEASE.githubReleaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 font-semibold"
+            >
+              <span>GitHub Releases</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
           </div>
         </div>
 

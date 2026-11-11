@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Copy, Check, ShieldCheck, RefreshCw, Terminal, FileCheck, CheckCircle, Smartphone } from 'lucide-react';
+import { Download, Copy, Check, ShieldCheck, RefreshCw, Terminal, FileCheck, CheckCircle, Smartphone, ExternalLink } from 'lucide-react';
 import { CURRENT_RELEASE } from '../data/downloadData';
 
 interface DownloadSectionProps {
@@ -9,6 +9,13 @@ interface DownloadSectionProps {
 export const DownloadSection = ({ onOpenDownload }: DownloadSectionProps) => {
   const [copied, setCopied] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<'stable' | 'nightly'>('stable');
+
+  const getDownloadHref = () => {
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      return CURRENT_RELEASE.mirrorDownloadUrl;
+    }
+    return CURRENT_RELEASE.downloadUrl;
+  };
 
   const copyHash = () => {
     navigator.clipboard.writeText(CURRENT_RELEASE.sha256);
@@ -141,12 +148,23 @@ export const DownloadSection = ({ onOpenDownload }: DownloadSectionProps) => {
               </button>
 
               <a
-                href={CURRENT_RELEASE.downloadUrl}
+                href={getDownloadHref()}
                 download={CURRENT_RELEASE.fileName}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#2b3548] bg-[#161c28] px-5 py-3.5 sm:py-4 text-xs font-bold text-zinc-300 hover:bg-[#1f283a] hover:text-white transition cursor-pointer"
               >
                 <RefreshCw className="h-4 w-4 text-zinc-400 shrink-0" />
                 <span>Direct Link</span>
+              </a>
+
+              <a
+                href={CURRENT_RELEASE.githubReleaseUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#2b3548] bg-[#10141e] px-4 py-3.5 sm:py-4 text-xs font-bold text-emerald-400 hover:bg-[#171d2b] transition cursor-pointer"
+                title="View Release on GitHub"
+              >
+                <ExternalLink className="h-4 w-4 shrink-0" />
+                <span className="hidden sm:inline">GitHub</span>
               </a>
             </div>
 
