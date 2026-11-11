@@ -4,6 +4,8 @@ export interface ReleaseInfo {
   date: string;
   fileName: string;
   downloadUrl: string;
+  mirrorDownloadUrl: string;
+  githubReleaseUrl: string;
   fileSize: string;
   sha256: string;
   minAndroid: string;
@@ -17,10 +19,12 @@ export interface ReleaseInfo {
 
 export const CURRENT_RELEASE: ReleaseInfo = {
   version: "1.0.0",
-  tag: "v1.0.0-nr",
+  tag: "v1.0.0",
   date: "November 11, 2026",
   fileName: "PgSphere-NR.apk",
-  downloadUrl: "/downloads/PgSphere-NR.apk",
+  downloadUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/download/v1.0.0/PgSphere-NR.apk",
+  mirrorDownloadUrl: "/downloads/PgSphere-NR.apk",
+  githubReleaseUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/tag/v1.0.0",
   fileSize: "191.5 MB",
   sha256: "08BD5CB573A25A91FE6F414B9A4412FB415D86F364A77906DF67B3B5B22071DC",
   minAndroid: "Android 10 (API 29) to Android 15",

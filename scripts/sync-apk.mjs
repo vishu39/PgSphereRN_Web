@@ -11,12 +11,14 @@ const pgSphereNrRoot = path.join(workspaceRoot, 'PgSphere-NR');
 const pgSphereRoot = path.join(workspaceRoot, 'PgSphere');
 
 const targetApkPath = path.join(webRoot, 'public', 'downloads', 'PgSphere-NR.apk');
+const GITHUB_REPO = 'vishu39/PgSphereRN_Web';
 
 // Candidate search locations for PgSphere-NR APKs (in order of priority)
 const searchDirs = [
   path.join(pgSphereNrRoot, 'release-apk'),
   path.join(pgSphereNrRoot, 'build', 'outputs', 'apk', 'release'),
   path.join(pgSphereNrRoot, 'build', 'outputs', 'apk'),
+  path.join(pgSphereNrRoot, 'build'),
   path.join(pgSphereNrRoot, 'dist'),
   pgSphereNrRoot,
   path.join(pgSphereNrRoot, 'game-apk'),
@@ -49,11 +51,11 @@ function findApksRecursive(dir, maxDepth = 3, currentDepth = 0) {
 for (const dir of searchDirs) {
   const apks = findApksRecursive(dir)
     .sort((a, b) => {
-      // Prioritize files named 'base.apk' or containing 'release' or 'PgSphere'
+      // Prioritize files named 'PgSphere-NR.apk' or 'base.apk'
       const aName = path.basename(a).toLowerCase();
       const bName = path.basename(b).toLowerCase();
-      const aPriority = aName.includes('release') || aName.includes('pgsphere') || aName === 'base.apk' ? 1 : 0;
-      const bPriority = bName.includes('release') || bName.includes('pgsphere') || bName === 'base.apk' ? 1 : 0;
+      const aPriority = aName === 'pgsphere-nr.apk' ? 2 : (aName.includes('release') || aName === 'base.apk' ? 1 : 0);
+      const bPriority = bName === 'pgsphere-nr.apk' ? 2 : (bName.includes('release') || bName === 'base.apk' ? 1 : 0);
       if (aPriority !== bPriority) return bPriority - aPriority;
 
       // Otherwise sort by newest modified
@@ -114,14 +116,18 @@ if (!releaseDateStr) {
 }
 
 const appVersion = '1.0.0';
+const releaseTag = `v${appVersion}`;
+const githubDownloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/${releaseTag}/PgSphere-NR.apk`;
+const githubReleaseUrl = `https://github.com/${GITHUB_REPO}/releases/tag/${releaseTag}`;
 
 console.log(`\nPgSphere-NR APK Info:`);
-console.log(`  Source:  ${sourceApkPath}`);
-console.log(`  Size:    ${sizeMB} (${sizeBytes} bytes)`);
-console.log(`  SHA-256: ${sha256}`);
-console.log(`  Date:    ${releaseDateStr}`);
-console.log(`  Version: ${appVersion}`);
-console.log(`  Target Game: ${detectedGameVersion}`);
+console.log(`  Source:     ${sourceApkPath}`);
+console.log(`  Size:       ${sizeMB} (${sizeBytes} bytes)`);
+console.log(`  SHA-256:    ${sha256}`);
+console.log(`  Date:       ${releaseDateStr}`);
+console.log(`  Version:    ${appVersion} (${releaseTag})`);
+console.log(`  Target:     ${detectedGameVersion}`);
+console.log(`  GitHub URL: ${githubDownloadUrl}`);
 
 // Update downloadData.ts
 const dataFilePath = path.join(webRoot, 'src', 'data', 'downloadData.ts');
@@ -132,7 +138,9 @@ if (fs.existsSync(dataFilePath)) {
   content = content.replace(/sha256:\s*"[^"]*"/, `sha256: "${sha256}"`);
   content = content.replace(/date:\s*"[^"]*"/, `date: "${releaseDateStr}"`);
   content = content.replace(/version:\s*"[^"]*"/, `version: "${appVersion}"`);
-  content = content.replace(/tag:\s*"[^"]*"/, `tag: "v${appVersion}-nr"`);
+  content = content.replace(/tag:\s*"[^"]*"/, `tag: "${releaseTag}"`);
+  content = content.replace(/downloadUrl:\s*"[^"]*"/, `downloadUrl: "${githubDownloadUrl}"`);
+  content = content.replace(/githubReleaseUrl:\s*"[^"]*"/, `githubReleaseUrl: "${githubReleaseUrl}"`);
   content = content.replace(/testedGameVersion:\s*"[^"]*"/, `testedGameVersion: "Pokémon GO ${detectedGameVersion}"`);
 
   fs.writeFileSync(dataFilePath, content, 'utf8');
