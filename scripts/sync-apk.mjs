@@ -139,7 +139,7 @@ if (fs.existsSync(dataFilePath)) {
   content = content.replace(/date:\s*"[^"]*"/, `date: "${releaseDateStr}"`);
   content = content.replace(/version:\s*"[^"]*"/, `version: "${appVersion}"`);
   content = content.replace(/tag:\s*"[^"]*"/, `tag: "${releaseTag}"`);
-  content = content.replace(/downloadUrl:\s*"[^"]*"/, `downloadUrl: "${githubDownloadUrl}"`);
+  content = content.replace(/githubDownloadUrl:\s*"[^"]*"/, `githubDownloadUrl: "${githubDownloadUrl}"`);
   content = content.replace(/githubReleaseUrl:\s*"[^"]*"/, `githubReleaseUrl: "${githubReleaseUrl}"`);
   content = content.replace(/testedGameVersion:\s*"[^"]*"/, `testedGameVersion: "Pokémon GO ${detectedGameVersion}"`);
 

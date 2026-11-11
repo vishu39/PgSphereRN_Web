@@ -4,6 +4,9 @@ export interface ReleaseInfo {
   date: string;
   fileName: string;
   downloadUrl: string;
+  mediafireUrl: string;
+  mediafireFolderUrl: string;
+  githubDownloadUrl: string;
   mirrorDownloadUrl: string;
   githubReleaseUrl: string;
   fileSize: string;
@@ -22,7 +25,10 @@ export const CURRENT_RELEASE: ReleaseInfo = {
   tag: "v1.0.0",
   date: "November 11, 2026",
   fileName: "PgSphere-NR.apk",
-  downloadUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/latest/download/PgSphere-NR.apk",
+  downloadUrl: "https://www.mediafire.com/file/meomduh4m4jb18r/PgSphere-NR.apk/file",
+  mediafireUrl: "https://www.mediafire.com/file/meomduh4m4jb18r/PgSphere-NR.apk/file",
+  mediafireFolderUrl: "https://www.mediafire.com/folder/36am1w7khtrg9/poke+tools",
+  githubDownloadUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/latest/download/PgSphere-NR.apk",
   mirrorDownloadUrl: "/downloads/PgSphere-NR.apk",
   githubReleaseUrl: "https://github.com/vishu39/PgSphereRN_Web/releases/tag/v1.0.0",
   fileSize: "191.5 MB",

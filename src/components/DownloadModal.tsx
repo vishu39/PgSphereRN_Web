@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, Download, CheckCircle2, Copy, Check, ShieldCheck, Smartphone, ExternalLink } from 'lucide-react';
+import { X, Download, Copy, Check, ShieldCheck, Smartphone, ExternalLink } from 'lucide-react';
 import { CURRENT_RELEASE } from '../data/downloadData';
 
 interface DownloadModalProps {
@@ -16,17 +16,22 @@ export const DownloadModal = ({ isOpen, onClose }: DownloadModalProps) => {
     if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
       return CURRENT_RELEASE.mirrorDownloadUrl;
     }
-    return CURRENT_RELEASE.downloadUrl;
+    return CURRENT_RELEASE.mediafireUrl;
   };
 
-  const triggerSingleDownload = () => {
+  const triggerSingleDownload = (url?: string) => {
     setDownloadStarted(true);
-    const link = document.createElement('a');
-    link.href = getDownloadHref();
-    link.download = CURRENT_RELEASE.fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const targetUrl = url || getDownloadHref();
+    if (targetUrl.startsWith('http')) {
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      const link = document.createElement('a');
+      link.href = targetUrl;
+      link.download = CURRENT_RELEASE.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   useEffect(() => {
@@ -90,38 +95,51 @@ export const DownloadModal = ({ isOpen, onClose }: DownloadModalProps) => {
 
         {/* Download Status Card */}
         <div className="mb-4 sm:mb-5 rounded-xl border border-[#20293a] bg-[#0c0e14] p-3.5 sm:p-4">
-          <div className="flex items-center justify-between text-xs font-semibold mb-1">
+          <div className="flex items-center justify-between text-xs font-semibold mb-2">
             <span className="text-zinc-300 text-[11px] sm:text-xs">
-              {downloadStarted ? "Download In Progress In Your Browser" : "Preparing Non-Root Release Package..."}
+              {downloadStarted ? "Opening High-Speed MediaFire Mirror..." : "Preparing Non-Root Release Package..."}
             </span>
             <span className="text-emerald-400 font-mono text-[11px] sm:text-xs">
-              {downloadStarted ? "Active" : "Starting..."}
+              {downloadStarted ? "Active" : "Ready"}
             </span>
           </div>
 
-          <div className="mt-2.5 sm:mt-3 flex flex-col xs:flex-row xs:items-center justify-between gap-1.5">
-            <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-emerald-400 font-medium">
-              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-              <span>{downloadStarted ? "APK transfer initiated" : "Ready to install on Android"}</span>
-            </div>
+          {/* Download Server Buttons */}
+          <div className="space-y-2 mt-3">
             <button
               type="button"
-              onClick={triggerSingleDownload}
-              className="text-left xs:text-right text-[11px] sm:text-xs text-sky-400 hover:text-sky-300 underline font-semibold cursor-pointer"
+              onClick={() => triggerSingleDownload(CURRENT_RELEASE.mediafireUrl)}
+              className="w-full flex items-center justify-between gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-3.5 py-2.5 text-xs font-bold text-white shadow-md hover:from-emerald-500 hover:to-teal-500 transition cursor-pointer"
             >
-              Click here if download didn't start
+              <div className="flex items-center gap-2">
+                <Download className="h-4 w-4 shrink-0" />
+                <span>Server 1: MediaFire Mirror (High Speed ⚡)</span>
+              </div>
+              <span className="text-[10px] bg-black/25 px-2 py-0.5 rounded font-mono">200 Mbps</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => triggerSingleDownload(CURRENT_RELEASE.githubDownloadUrl)}
+              className="w-full flex items-center justify-between gap-2 rounded-xl border border-[#232b3b] bg-[#141824] px-3.5 py-2 text-xs font-semibold text-zinc-300 hover:bg-[#1a2130] hover:text-white transition cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <ExternalLink className="h-3.5 w-3.5 text-zinc-400 shrink-0" />
+                <span>Server 2: GitHub Releases (Direct Asset)</span>
+              </div>
+              <span className="text-[10px] text-zinc-400 font-mono">Official</span>
             </button>
           </div>
 
-          <div className="mt-2.5 pt-2 border-t border-[#1a2130] flex items-center justify-between text-[11px] text-zinc-400">
-            <span>Mirror / Releases page:</span>
+          <div className="mt-3 pt-2.5 border-t border-[#1a2130] flex flex-wrap items-center justify-between gap-2 text-[11px] text-zinc-400">
+            <span>All versions folder:</span>
             <a
-              href={CURRENT_RELEASE.githubReleaseUrl}
+              href={CURRENT_RELEASE.mediafireFolderUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 font-semibold"
+              className="text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 font-semibold"
             >
-              <span>GitHub Releases</span>
+              <span>MediaFire Poke Tools Folder</span>
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>

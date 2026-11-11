@@ -14,7 +14,7 @@ export const DownloadSection = ({ onOpenDownload }: DownloadSectionProps) => {
     if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
       return CURRENT_RELEASE.mirrorDownloadUrl;
     }
-    return CURRENT_RELEASE.downloadUrl;
+    return CURRENT_RELEASE.mediafireUrl;
   };
 
   const copyHash = () => {
@@ -149,18 +149,31 @@ export const DownloadSection = ({ onOpenDownload }: DownloadSectionProps) => {
 
               <a
                 href={getDownloadHref()}
-                download={CURRENT_RELEASE.fileName}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#2b3548] bg-[#161c28] px-5 py-3.5 sm:py-4 text-xs font-bold text-zinc-300 hover:bg-[#1f283a] hover:text-white transition cursor-pointer"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#2b3548] bg-[#161c28] px-4 py-3.5 sm:py-4 text-xs font-bold text-zinc-300 hover:bg-[#1f283a] hover:text-white transition cursor-pointer"
+                title="Download directly from high-speed MediaFire mirror"
               >
-                <RefreshCw className="h-4 w-4 text-zinc-400 shrink-0" />
-                <span>Direct Link</span>
+                <RefreshCw className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span>MediaFire (⚡ High-Speed)</span>
+              </a>
+
+              <a
+                href={CURRENT_RELEASE.mediafireFolderUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#2b3548] bg-[#10141e] px-3.5 py-3.5 sm:py-4 text-xs font-bold text-sky-400 hover:bg-[#171d2b] transition cursor-pointer"
+                title="View poke tools release folder"
+              >
+                <ExternalLink className="h-4 w-4 shrink-0" />
+                <span>Folder Archive</span>
               </a>
 
               <a
                 href={CURRENT_RELEASE.githubReleaseUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#2b3548] bg-[#10141e] px-4 py-3.5 sm:py-4 text-xs font-bold text-emerald-400 hover:bg-[#171d2b] transition cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#2b3548] bg-[#10141e] px-3.5 py-3.5 sm:py-4 text-xs font-bold text-zinc-400 hover:bg-[#171d2b] hover:text-white transition cursor-pointer"
                 title="View Release on GitHub"
               >
                 <ExternalLink className="h-4 w-4 shrink-0" />
